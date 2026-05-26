@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+
+using TMPro;
 
 public class WallValueCounterScript : MonoBehaviour
 {
@@ -30,15 +31,37 @@ public class WallValueCounterScript : MonoBehaviour
 
     void Sorsolas()
     {
-        lNum = UnityEngine.Random.Range(0, 100);
-        rNum = UnityEngine.Random.Range(0, 100);
-        bool sideRand = Convert.ToBoolean(UnityEngine.Random.Range(0, 2));
+        lNum = Random.Range(0, 100);
+        rNum = Random.Range(0, 100);
+        bool sideRand = Random.Range(1, 101)>50;
 
         if(sideRand) lNum *= -1;
         else rNum *= -1;
 
         r.number = rNum;
         l.number = lNum;
+
+        string rStr = ((!sideRand) ? "-" : "+" )+ $"{Mathf.Abs(rNum)}";
+        string lStr = ((!sideRand) ? "+" : "-" )+ $"{Mathf.Abs(lNum)}";
+
+        lWall.transform.GetChild(0).GetComponent<TMP_Text>().text = lStr;
+        rWall.transform.GetChild(0).GetComponent<TMP_Text>().text = rStr;
+
+        if (rNum > lNum)
+        {
+            rWall.GetComponent<Renderer>().material = GoodMat;
+            lWall.GetComponent<Renderer>().material = BadMat;
+        }
+        else if (rNum < lNum)
+        {
+            lWall.GetComponent<Renderer>().material = GoodMat;
+            rWall.GetComponent<Renderer>().material = BadMat;
+        }
+        else
+        {
+            lWall.GetComponent<Renderer>().material = GoodMat;
+            rWall.GetComponent<Renderer>().material = GoodMat;
+        }
     }
 
 

@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
+using TMPro;
 
 public class GamCTrollerSzkrip : MonoBehaviour
 {
     int speed = 8;
-    void Start()
+
+    int score = 0;
+    [SerializeField] TMP_Text scoreText;
+
+    void Awake()
     {
-        
+        scoreText.text = "0";
     }
 
     void Update()
@@ -38,6 +44,8 @@ public class GamCTrollerSzkrip : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Gate":
+                score += other.gameObject.GetComponent<WallScript>().number;
+                scoreText.text = ""+score;
                 Destroy(other.gameObject);
                 break;
         }
